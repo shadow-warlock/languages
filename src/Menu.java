@@ -62,7 +62,13 @@ public class Menu extends FrameItem implements ActionListener {
             Database db = new Database();
             db.insert("INSERT INTO langs VALUES('"+newLang.getText()+"', '"+Application.getInstance().user+"')");
             Application.getInstance().frame.move(ProgramFrame.CHANGE_LANG);
+        }
 
+        for(int i = 0; i < langs.length; i++){
+            if(actionEvent.getSource() == langs[i]){
+                Application.getInstance().lang = langs[i].getLabel();
+                Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
+            }
         }
 
         if(actionEvent.getSource() == back){
