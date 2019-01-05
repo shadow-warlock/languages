@@ -45,7 +45,6 @@ public class AddWord extends FrameItem implements ActionListener{
                     File file = fileopen.getSelectedFile();
                     File newF = new File("imgs/" + file.getName());
                     try {
-                        //newF.deleteOnExit();
                         Files.copy(file.toPath(), newF.toPath());
                         img = newF;
 //                        addImage.setLabel("Картинка выбрана");
@@ -56,6 +55,7 @@ public class AddWord extends FrameItem implements ActionListener{
                 }
             }
         });
+
         word = new TextField();
         translate = new TextField();
         transcription = new TextField();
@@ -84,6 +84,7 @@ public class AddWord extends FrameItem implements ActionListener{
         }
         System.out.println(Arrays.toString(categories));
         category = new JComboBox(categories);
+
         add(new Label("Добавьте слово. Язык выбран " + Application.getInstance().lang));
         JPanel buttons = new JPanel(new GridLayout(2, 2));
         JPanel buttons2 = new JPanel(new GridLayout(2, 2));
@@ -119,7 +120,11 @@ public class AddWord extends FrameItem implements ActionListener{
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == addWord){
             Database db = new Database();
-            db.insert("INSERT INTO words VALUES(null, '"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
+            if(category.getSelectedItem().equals("Без категории"))
+                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', null)");
+            else
+                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
+
 
             Application.getInstance().action = null;
             Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
