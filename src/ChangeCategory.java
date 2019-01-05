@@ -26,7 +26,7 @@ public class ChangeCategory extends FrameItem implements ActionListener{
         back.addActionListener(this);
 
         Database db = new Database();
-        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = '" +Application.getInstance().lang+ "'");
+        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = '" +Application.getInstance().lang+ "' AND user='"+Application.getInstance().user+"'");
         int size =0;
         String[] categories = new String[2];
         categories[0] = WITH_OUT_CATEGORY;
@@ -74,12 +74,12 @@ public class ChangeCategory extends FrameItem implements ActionListener{
             Database db = new Database();
             ResultSet rs;
             if(((String) category.getSelectedItem()).equals(WITH_OUT_CATEGORY)){
-                rs = db.select("SELECT * FROM words WHERE lang = '" +Application.getInstance().lang+ "' AND category = '' ORDER BY RAND() LIMIT 15");
+                rs = db.select("SELECT * FROM words WHERE lang = '" +Application.getInstance().lang+ "' AND category = '' AND user='"+Application.getInstance().user+"' ORDER BY RAND() LIMIT 15");
 
             }else if(((String) category.getSelectedItem()).equals(ALL_WORDS)){
-                rs = db.select("SELECT * FROM words WHERE lang = '" +Application.getInstance().lang+ "' ORDER BY RAND() LIMIT 15");
+                rs = db.select("SELECT * FROM words WHERE lang = '" +Application.getInstance().lang+ "' AND user='"+Application.getInstance().user+"' ORDER BY RAND() LIMIT 15");
             }else{
-                rs = db.select("SELECT * FROM words WHERE lang = '" +Application.getInstance().lang+ "' AND category = '"+(String)category.getSelectedItem()+"' ORDER BY RAND() LIMIT 15");
+                rs = db.select("SELECT * FROM words WHERE lang = '" +Application.getInstance().lang+ "' AND category = '"+(String)category.getSelectedItem()+"'  AND user='"+Application.getInstance().user+"' ORDER BY RAND() LIMIT 15");
             }
             try{
                 while(rs.next()){

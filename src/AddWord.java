@@ -61,7 +61,7 @@ public class AddWord extends FrameItem implements ActionListener{
         transcription = new TextField();
         example = new TextField();
         Database db = new Database();
-        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = \"" +Application.getInstance().lang+"\"");
+        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = \"" +Application.getInstance().lang+"\" AND user = '"+Application.getInstance().user+"'");
         int size =0;
         String[] categories = new String[1];
         categories[0] = "Без категории";
@@ -119,7 +119,7 @@ public class AddWord extends FrameItem implements ActionListener{
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == addWord){
             Database db = new Database();
-            db.insert("INSERT INTO words VALUES(null, \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
+            db.insert("INSERT INTO words VALUES(null, '"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
 
             Application.getInstance().action = null;
             Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);

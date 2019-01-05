@@ -22,7 +22,7 @@ public class AddCategory extends FrameItem implements ActionListener{
         addCategory = new Button("Добавить категорию");
         addCategory.addActionListener(this);
         Database db = new Database();
-        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = \"" +Application.getInstance().lang+"\"");
+        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = \"" +Application.getInstance().lang+"\" AND user = '"+Application.getInstance().user+"'");
         String[] categoriesArray = new String[0];
         int size = 0;
         if (rs != null)
@@ -65,7 +65,7 @@ public class AddCategory extends FrameItem implements ActionListener{
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == addCategory){
             Database db = new Database();
-            db.insert("INSERT INTO categories VALUES('"+category.getText()+"', '"+Application.getInstance().lang+"')");
+            db.insert("INSERT INTO categories VALUES('"+Application.getInstance().user+"', '"+category.getText()+"', '"+Application.getInstance().lang+"')");
 
             Application.getInstance().action = null;
             Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);

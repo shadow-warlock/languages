@@ -54,7 +54,10 @@ public class ProgramFrame extends JFrame {
                 break;
             case CHANGE_ACTION:
                 remove(currentItem);
-                currentItem = new ChangeAction(dim);
+                if(Application.getInstance().userType == UserType.TEACHER)
+                    currentItem = new ChangeActionTeather(dim);
+                else
+                    currentItem = new ChangeAction(dim);
                 setContentPane(currentItem);
                 setVisible(true);
                 break;
