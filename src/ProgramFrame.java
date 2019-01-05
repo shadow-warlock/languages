@@ -28,7 +28,7 @@ public class ProgramFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         currentItem = new LogIn(dim);
         setContentPane(currentItem);
-
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
