@@ -11,13 +11,17 @@ public class ProgramFrame extends JFrame {
 
     public static final String LOG_IN = "log_in";
     public static final String REGISTRATION = "registration";
-
+    public static final String GRAMMAR = "grammar";
     public static final String CHANGE_LANG = "change_lang";
     public static final String CHANGE_ACTION = "change_action";
     public static final String CHANGE_CATEGORY = "change_category";
     public static final String ADD_WORD = "add_word";
     public static final String ADD_CATEGORY = "add_category";
     public static final String TEST_PAGE = "test_page";
+    public static final String GRAMMAR_EDIT = "grammar_edit";
+    public static final String WORD_LESSON = "word_lesson";
+    public static final String WORD_LESSON_EDIT = "word_lesson_edit";
+    public static final String ADD_WORD_TO_LESSON = "add_word_to_lesson";
 
 
     public ProgramFrame(){
@@ -34,6 +38,36 @@ public class ProgramFrame extends JFrame {
 
     public void move(String action){
         switch (action){
+            case ADD_WORD_TO_LESSON:
+                remove(currentItem);
+                currentItem = new AddWordToLesson(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case WORD_LESSON_EDIT:
+                remove(currentItem);
+                currentItem = new WordLessonEdit(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case WORD_LESSON:
+                remove(currentItem);
+                currentItem = new WordLessonsList(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case GRAMMAR_EDIT:
+                remove(currentItem);
+                currentItem = new GrammarEdit(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case GRAMMAR:
+                remove(currentItem);
+                currentItem = new GrammarList(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
             case REGISTRATION:
                 remove(currentItem);
                 currentItem = new Registration(dim);

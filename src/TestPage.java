@@ -117,6 +117,7 @@ public class TestPage extends FrameItem implements ActionListener{
 
             }else{
                 Application.getInstance().errors++;
+                ((Button)actionEvent.getSource()).setBackground(Color.red);
             }
         }
     }

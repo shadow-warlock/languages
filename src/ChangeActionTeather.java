@@ -34,11 +34,11 @@ public class ChangeActionTeather extends FrameItem implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == grammarLesson){
             Application.getInstance().action = "grammar";
-            Application.getInstance().frame.move(ProgramFrame.ADD_WORD);
+            Application.getInstance().frame.move(ProgramFrame.GRAMMAR);
         }
         if(actionEvent.getSource() == wordsLesson){
-            Application.getInstance().action = "word";
-            Application.getInstance().frame.move(ProgramFrame.ADD_CATEGORY);
+            Application.getInstance().action = "word_lesson";
+            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON);
 
         }
         if(actionEvent.getSource() == back){

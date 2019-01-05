@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,15 +7,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 
-public class AddWord extends FrameItem implements ActionListener{
+public class AddWordToLesson extends FrameItem implements ActionListener{
     private Button addWord;
     private Button back;
     private Button addImage;
@@ -33,7 +28,7 @@ public class AddWord extends FrameItem implements ActionListener{
 
 
 
-    public AddWord(Dimension dim){
+    public AddWordToLesson(Dimension dim){
         super(dim, 7, 1);
         addWord = new Button("Добавить");
         addWord.addActionListener(this);
@@ -72,28 +67,8 @@ public class AddWord extends FrameItem implements ActionListener{
         transcription = new TextField();
         example = new TextField();
         Database db = new Database();
-        ResultSet rs = db.select("SELECT * FROM categories WHERE lang = \"" +Application.getInstance().lang+"\" AND user = '"+Application.getInstance().user+"'");
-        int size =0;
         String[] categories = new String[1];
-        categories[0] = "Без категории";
-        if (rs != null)
-        {
-            try {
-                rs.beforeFirst();
-                rs.last();
-                size = rs.getRow();
-                rs.beforeFirst();
-                categories = new String[size+1];
-                categories[0] = "Без категории";
-                for(int i = 1; rs.next(); i++){
-                    categories[i] = rs.getString("title");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-        System.out.println(Arrays.toString(categories));
+        categories[0] = Application.getInstance().wordLessonCurrentName;
         category = new JComboBox(categories);
 
         add(new Label("Добавьте слово. Язык выбран " + Application.getInstance().lang));
@@ -132,18 +107,13 @@ public class AddWord extends FrameItem implements ActionListener{
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == addWord){
             Database db = new Database();
-            if(category.getSelectedItem().equals("Без категории"))
-                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', null)");
-            else
-                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
-
-
+            db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
+            db.insert("INSERT INTO lessons_words VALUES('"+Application.getInstance().wordLessonCurrentName+"', '"+word.getText()+"')");
             Application.getInstance().action = null;
-            Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
+            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
         }
         if(actionEvent.getSource() == back){
-            Application.getInstance().action = null;
-            Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
+            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
 
         }
     }

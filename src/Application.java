@@ -3,6 +3,10 @@ import java.util.List;
 
 public class Application {
 
+    Integer grammarCurrentId = null;
+    String grammarCurrentName = null;
+    String grammarCurrentText = null;
+    String wordLessonCurrentName = null;
     String user = null;
     UserType userType = null;
     String lang = null;

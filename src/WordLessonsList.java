@@ -6,18 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class GrammarList extends FrameItem implements ActionListener {
+public class WordLessonsList extends FrameItem implements ActionListener {
 
     private ResultSet lessons;
     private Button[] lessonsButs;
     private Button add;
     private Button back;
 
-    public GrammarList(Dimension dim) {
+    public WordLessonsList(Dimension dim) {
         super(dim, 4, 1);
-        add(new Label("Уроки по грамматике"));
+        add(new Label("Уроки по словам"));
         Database db = new Database();
-        lessons = db.select("SELECT * FROM grammar_lessons WHERE lang = '"+Application.getInstance().lang+"'");
+        lessons = db.select("SELECT * FROM lessons WHERE lang  = '"+Application.getInstance().lang+"'");
         ArrayList<String> langsList = new ArrayList<String>();
         try{
             while (lessons.next()){
@@ -53,7 +53,7 @@ public class GrammarList extends FrameItem implements ActionListener {
 
     private String makeTitle(ResultSet lessons){
         try {
-            return  "Запись №" +lessons.getString("id") + "; " + lessons.getString("name") + "; Автор " + lessons.getString("author");
+            return lessons.getString("name") + "; Автор " + lessons.getString("author");
         } catch (SQLException e) {
             e.printStackTrace();
             return "";
@@ -65,10 +65,8 @@ public class GrammarList extends FrameItem implements ActionListener {
         try {
             while (lessons.next()){
                 if(actionEvent.getActionCommand().equals(makeTitle(lessons))){
-                    Application.getInstance().grammarCurrentId = lessons.getInt("id");
-                    Application.getInstance().grammarCurrentName = lessons.getString("name");
-                    Application.getInstance().grammarCurrentText = lessons.getString("text");
-                    Application.getInstance().frame.move(ProgramFrame.GRAMMAR_EDIT);
+                    Application.getInstance().wordLessonCurrentName = lessons.getString("name");
+                    Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
                 }
             }
         } catch (SQLException e) {
@@ -78,8 +76,8 @@ public class GrammarList extends FrameItem implements ActionListener {
             Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
         }
         if(actionEvent.getSource() == add){
-            Application.getInstance().grammarCurrentId = null;
-            Application.getInstance().frame.move(ProgramFrame.GRAMMAR_EDIT);
+            Application.getInstance().wordLessonCurrentName = null;
+            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
         }
     }
 }
