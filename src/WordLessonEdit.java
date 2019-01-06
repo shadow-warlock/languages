@@ -10,13 +10,14 @@ public class WordLessonEdit extends FrameItem implements ActionListener {
 
     private Button[] lessonsButs;
     private Button addWord;
+    private Button remove;
 
     private TextField name;
     private Button add;
     private Button back;
 
     public WordLessonEdit(Dimension dim) {
-        super(dim, 5, 1);
+        super(dim, 7, 1);
         name = new TextField();
         JPanel title = new JPanel(new GridLayout(3, 1));
         title.add(new Label("Создание\\редактирование урока по словам"));
@@ -61,11 +62,14 @@ public class WordLessonEdit extends FrameItem implements ActionListener {
 
         back = new Button("Назад");
         back.addActionListener(this);
-        if(Application.getInstance().wordLessonCurrentName == null){
+//        if(Application.getInstance().wordLessonCurrentName == null){
+        remove = new Button("Удалить");
+        add(remove);
+        remove.addActionListener(this);
             add = new Button("Добавить\\изменить урок");
             add.addActionListener(this);
             add(add);
-        }
+//        }
 
         add(back);
         buttons.setFont(font);
@@ -83,11 +87,29 @@ public class WordLessonEdit extends FrameItem implements ActionListener {
                 db.insert("INSERT INTO categories VALUES('"+Application.getInstance().user+"', '"+name.getText()+"', '"+Application.getInstance().lang+"')");
                 db.insert("INSERT INTO lessons VALUES('"+name.getText()+"', '"+Application.getInstance().user+"', '"+Application.getInstance().lang+"')");
                 Application.getInstance().frame.move(ProgramFrame.WORD_LESSON);
+            }else{
+                Database db = new Database();
+                db.insert("DELETE FROM lessons WHERE name = '"+Application.getInstance().wordLessonCurrentName+"' AND author='"+Application.getInstance().user+"' AND lang='"+Application.getInstance().lang+"'");
+                db.insert("INSERT INTO categories VALUES('"+Application.getInstance().user+"', '"+name.getText()+"', '"+Application.getInstance().lang+"')");
+                db.insert("INSERT INTO lessons VALUES('"+name.getText()+"', '"+Application.getInstance().user+"', '"+Application.getInstance().lang+"')");
             }
+            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON);
+            return;
+        }
+        for (int i = 0; i < lessonsButs.length; i++){
+            if(actionEvent.getSource() == lessonsButs[i]){
+                Application.getInstance().currentEditWord = lessonsButs[i].getLabel();
+                Application.getInstance().frame.move(ProgramFrame.ADD_WORD_TO_LESSON);
 
+            }
         }
         if(actionEvent.getSource() == addWord){
             Application.getInstance().frame.move(ProgramFrame.ADD_WORD_TO_LESSON);
+        }
+        if(actionEvent.getSource() == remove){
+            Database db = new Database();
+            db.insert("DELETE FROM lessons WHERE name = '"+Application.getInstance().wordLessonCurrentName+"' AND author='"+Application.getInstance().user+"' AND lang='"+Application.getInstance().lang+"'");
+            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON);
         }
         if(actionEvent.getSource() == back){
             Application.getInstance().wordLessonCurrentName = null;

@@ -11,6 +11,8 @@ public class ChangeAction extends FrameItem implements ActionListener {
     private final Button lessons;
     private final Button stats;
     private final Button back;
+    private final Button works;
+    private final Button lessonsTest;
 
     public ChangeAction(Dimension dim){
         super(dim, 3, 3);
@@ -18,10 +20,14 @@ public class ChangeAction extends FrameItem implements ActionListener {
         addWord.addActionListener(this);
         category = new Button("Категории");
         category.addActionListener(this);
-        lessons = new Button("Учиться");
+        lessons = new Button("Тесты");
         lessons.addActionListener(this);
+        lessonsTest = new Button("Уроки");
+        lessonsTest.addActionListener(this);
         stats = new Button("Статистика");
         stats.addActionListener(this);
+        works = new Button("Смотреть слова");
+        works.addActionListener(this);
         back = new Button("Назад");
         back.addActionListener(this);
         add(new Label("Выберите действие. Язык выбран " + Application.getInstance().lang));
@@ -29,6 +35,8 @@ public class ChangeAction extends FrameItem implements ActionListener {
         buttons.add(addWord);
         buttons.add(category);
         buttons.add(lessons);
+        buttons.add(lessonsTest);
+        buttons.add(works);
         buttons.add(stats);
 
         add(buttons);
@@ -55,9 +63,19 @@ public class ChangeAction extends FrameItem implements ActionListener {
             Application.getInstance().frame.move(ProgramFrame.CHANGE_CATEGORY);
 
         }
+        if(actionEvent.getSource() == lessonsTest){
+            Application.getInstance().action = "lessonsTest";
+            Application.getInstance().frame.move(ProgramFrame.CHANGE_LESSON);
+
+        }
+        if(actionEvent.getSource() == works){
+            Application.getInstance().action = "works";
+            Application.getInstance().frame.move(ProgramFrame.CHANGE_CATEGORY_WORDS);
+
+        }
         if(actionEvent.getSource() == stats){
             Application.getInstance().action = "stats";
-//            Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
+            Application.getInstance().frame.move(ProgramFrame.STATS);
 
         }
         if(actionEvent.getSource() == back){

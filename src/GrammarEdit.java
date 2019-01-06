@@ -11,10 +11,11 @@ public class GrammarEdit extends FrameItem implements ActionListener {
     private TextField name;
     private TextArea text;
     private Button add;
+    private Button remove;
     private Button back;
 
     public GrammarEdit(Dimension dim) {
-        super(dim, 4, 1);
+        super(dim, 5, 1);
         add(new Label("Создание\\редактирование урока по грамматике"));
         name = new TextField();
         text = new TextArea();
@@ -31,8 +32,11 @@ public class GrammarEdit extends FrameItem implements ActionListener {
         back.addActionListener(this);
         add = new Button("Добавить\\изменить урок");
         add.addActionListener(this);
+        remove = new Button("Удалить");
+        remove.addActionListener(this);
         add(buttons);
         add(add);
+        add(remove);
         add(back);
         buttons.setFont(font);
         back.setFont(font);
@@ -52,7 +56,13 @@ public class GrammarEdit extends FrameItem implements ActionListener {
             Application.getInstance().grammarCurrentId = null;
             Application.getInstance().frame.move(ProgramFrame.GRAMMAR);
         }
+        if(actionEvent.getSource() == remove){
+            Database db = new Database();
+            db.insert("DELETE FROM grammar_lessons WHERE id = "+Application.getInstance().grammarCurrentId);
 
+            Application.getInstance().grammarCurrentId = null;
+            Application.getInstance().frame.move(ProgramFrame.GRAMMAR);
+        }
     }
 }
 

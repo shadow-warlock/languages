@@ -44,6 +44,7 @@ public class Database {
         }
     }
 
+
     public ResultSet select(String query){
         try {
             return stmt.executeQuery(query);

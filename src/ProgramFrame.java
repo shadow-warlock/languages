@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class ProgramFrame extends JFrame {
 
@@ -15,6 +14,8 @@ public class ProgramFrame extends JFrame {
     public static final String CHANGE_LANG = "change_lang";
     public static final String CHANGE_ACTION = "change_action";
     public static final String CHANGE_CATEGORY = "change_category";
+    public static final String CHANGE_CATEGORY_WORDS = "change_category_words";
+
     public static final String ADD_WORD = "add_word";
     public static final String ADD_CATEGORY = "add_category";
     public static final String TEST_PAGE = "test_page";
@@ -22,6 +23,10 @@ public class ProgramFrame extends JFrame {
     public static final String WORD_LESSON = "word_lesson";
     public static final String WORD_LESSON_EDIT = "word_lesson_edit";
     public static final String ADD_WORD_TO_LESSON = "add_word_to_lesson";
+    public static final String WORDS_LOOK = "words_look";
+    public static final String CHANGE_LESSON = "change_lesson";
+    public static final String GRAMMAR_LOOK = "grammar_look";
+    public static final String STATS = "stats";
 
 
     public ProgramFrame(){
@@ -38,6 +43,36 @@ public class ProgramFrame extends JFrame {
 
     public void move(String action){
         switch (action){
+            case STATS:
+                remove(currentItem);
+                currentItem = new Stats(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case GRAMMAR_LOOK:
+                remove(currentItem);
+                currentItem = new GrammarLook(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case CHANGE_LESSON:
+                remove(currentItem);
+                currentItem = new ChangeLesson(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case WORDS_LOOK:
+                remove(currentItem);
+                currentItem = new WordsLook(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
+            case CHANGE_CATEGORY_WORDS:
+                remove(currentItem);
+                currentItem = new ChangeCategoryWords(dim);
+                setContentPane(currentItem);
+                setVisible(true);
+                break;
             case ADD_WORD_TO_LESSON:
                 remove(currentItem);
                 currentItem = new AddWordToLesson(dim);

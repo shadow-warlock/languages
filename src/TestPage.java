@@ -99,6 +99,8 @@ public class TestPage extends FrameItem implements ActionListener{
         }else{
             if(word != null && actionEvent.getActionCommand().equals(word[2])){
                 Application.getInstance().trues++;
+                Database db = new Database();
+                db.insert("INSERT INTO stats VALUES(null, '"+word[2]+"', '" +Application.getInstance().lang+ "', '"+Application.getInstance().user+"', 1)");
                 if(Application.getInstance().wordNum < Application.getInstance().words.size()-1){
                     Application.getInstance().wordNum++;
                     Application.getInstance().frame.move(ProgramFrame.TEST_PAGE);
@@ -117,6 +119,8 @@ public class TestPage extends FrameItem implements ActionListener{
 
             }else{
                 Application.getInstance().errors++;
+                Database db = new Database();
+                db.insert("INSERT INTO stats VALUES(null, '"+word[2]+"', '" +Application.getInstance().lang+ "', '"+Application.getInstance().user+"', 0)");
                 ((Button)actionEvent.getSource()).setBackground(Color.red);
             }
         }

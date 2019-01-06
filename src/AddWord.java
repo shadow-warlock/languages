@@ -18,6 +18,7 @@ import java.util.Arrays;
 
 public class AddWord extends FrameItem implements ActionListener{
     private Button addWord;
+    private Button removeWord;
     private Button back;
     private Button addImage;
 
@@ -35,8 +36,10 @@ public class AddWord extends FrameItem implements ActionListener{
 
     public AddWord(Dimension dim){
         super(dim, 7, 1);
-        addWord = new Button("Добавить");
+        addWord = new Button("Добавить\\изменить");
         addWord.addActionListener(this);
+        removeWord = new Button("Удалить");
+        removeWord.addActionListener(this);
         back = new Button("Назад");
         back.addActionListener(this);
         label = new JLabel();
@@ -96,7 +99,7 @@ public class AddWord extends FrameItem implements ActionListener{
         System.out.println(Arrays.toString(categories));
         category = new JComboBox(categories);
 
-        add(new Label("Добавьте слово. Язык выбран " + Application.getInstance().lang));
+        add(new Label("Добавьте\\измените слово. Язык выбран " + Application.getInstance().lang));
         add(label);
         JPanel buttons = new JPanel(new GridLayout(2, 2));
         JPanel buttons2 = new JPanel(new GridLayout(2, 2));
@@ -117,32 +120,75 @@ public class AddWord extends FrameItem implements ActionListener{
         add(buttons);
         add(buttons2);
         add(buttons3);
-        add(addWord);
+        JPanel addRm = new JPanel(new GridLayout(1, 2));
+        addRm.add(addWord);
+        addRm.add(removeWord);
+        add(addRm);
+//        add(addWord);
         add(back);
-
+        addRm.setFont(font);
         setFont(font);
         buttons.setFont(font);
         buttons2.setFont(font);
         buttons3.setFont(font);
         category.setFont(font);
+        if(Application.getInstance().currentEditWord != null){
+            ResultSet wordData = db.select("SELECT * FROM words WHERE word = '"+Application.getInstance().currentEditWord+"' AND lang = '"+Application.getInstance().lang+"' AND user = '"+Application.getInstance().user+"'");
+
+            try {
+                wordData.next();
+                img = new File(wordData.getString("img"));
+                if(img.exists()){
+                    try {
+                        BufferedImage img2 = ImageIO.read(img);
+                        label.setIcon(new ImageIcon(img2));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                translate.setText(wordData.getString("translate"));
+                transcription.setText(wordData.getString("transcription"));
+                example.setText(wordData.getString("example"));
+                word.setText(wordData.getString("word"));
+                category.setSelectedItem(wordData.getString("category"));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
 
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == addWord){
-            Database db = new Database();
-            if(category.getSelectedItem().equals("Без категории"))
-                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', null)");
-            else
-                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
-
+            if(Application.getInstance().currentEditWord == null){
+                Database db = new Database();
+                if(category.getSelectedItem().equals("Без категории"))
+                    db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', null)");
+                else
+                    db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
+            }else{
+                Database db = new Database();
+                if(category.getSelectedItem().equals("Без категории"))
+                    db.insert("UPDATE words SET word=\'"+word.getText()+"\', translate=\'"+translate.getText()+"\', transcription=\'"+transcription.getText()+"\', img=\'"+(img==null?"null":img.getName())+"\', example=\'"+example.getText()+"\', category=null WHERE word = '"+Application.getInstance().currentEditWord+"' AND lang='"+Application.getInstance().lang+"' AND user='"+Application.getInstance().user+"'");
+                else
+                    db.insert("UPDATE words SET word=\'"+word.getText()+"\', translate=\'"+translate.getText()+"\', transcription=\'"+transcription.getText()+"\', img=\'"+(img==null?"null":img.getName())+"\', example=\'"+example.getText()+"\', category=\'"+category.getSelectedItem()+"\' WHERE word = '"+Application.getInstance().currentEditWord+"' AND lang='"+Application.getInstance().lang+"' AND user='"+Application.getInstance().user+"'");
+                Application.getInstance().currentEditWord = null;
+            }
 
             Application.getInstance().action = null;
             Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
         }
         if(actionEvent.getSource() == back){
             Application.getInstance().action = null;
+            Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
+
+        }
+        if(actionEvent.getSource() == removeWord){
+            Database db = new Database();
+            db.insert("DELETE FROM words WHERE word='"+word.getText()+"' AND lang = '"+Application.getInstance().lang+"' AND user='"+Application.getInstance().user+"'");
             Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
 
         }

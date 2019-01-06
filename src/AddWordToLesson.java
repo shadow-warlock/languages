@@ -13,6 +13,8 @@ import java.util.Arrays;
 
 public class AddWordToLesson extends FrameItem implements ActionListener{
     private Button addWord;
+    private Button removeWord;
+
     private Button back;
     private Button addImage;
 
@@ -32,6 +34,8 @@ public class AddWordToLesson extends FrameItem implements ActionListener{
         super(dim, 7, 1);
         addWord = new Button("Добавить");
         addWord.addActionListener(this);
+        removeWord = new Button("Удалить");
+        removeWord.addActionListener(this);
         back = new Button("Назад");
         back.addActionListener(this);
         label = new JLabel();
@@ -66,7 +70,6 @@ public class AddWordToLesson extends FrameItem implements ActionListener{
         translate = new TextField();
         transcription = new TextField();
         example = new TextField();
-        Database db = new Database();
         String[] categories = new String[1];
         categories[0] = Application.getInstance().wordLessonCurrentName;
         category = new JComboBox(categories);
@@ -92,7 +95,11 @@ public class AddWordToLesson extends FrameItem implements ActionListener{
         add(buttons);
         add(buttons2);
         add(buttons3);
-        add(addWord);
+        JPanel addRm = new JPanel(new GridLayout(1, 2));
+        addRm.add(addWord);
+        addRm.add(removeWord);
+        add(addRm);
+        addRm.setFont(font);
         add(back);
 
         setFont(font);
@@ -100,20 +107,51 @@ public class AddWordToLesson extends FrameItem implements ActionListener{
         buttons2.setFont(font);
         buttons3.setFont(font);
         category.setFont(font);
+        if(Application.getInstance().currentEditWord != null){
+            Database db = new Database();
+            ResultSet wordData = db.select("SELECT * FROM words WHERE word = '"+Application.getInstance().currentEditWord+"' AND lang = '"+Application.getInstance().lang+"' AND user = '"+Application.getInstance().user+"'");
 
+            try {
+                wordData.next();
+                img = new File(wordData.getString("img"));
+                translate.setText(wordData.getString("translate"));
+                transcription.setText(wordData.getString("transcription"));
+                example.setText(wordData.getString("example"));
+                word.setText(wordData.getString("word"));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == addWord){
-            Database db = new Database();
-            db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
-            db.insert("INSERT INTO lessons_words VALUES('"+Application.getInstance().wordLessonCurrentName+"', '"+word.getText()+"')");
-            Application.getInstance().action = null;
-            Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
+            if(Application.getInstance().currentEditWord == null){
+                Database db = new Database();
+                db.insert("INSERT INTO words VALUES('"+Application.getInstance().user+"', \""+Application.getInstance().lang+"\", \'"+word.getText()+"\', \'"+translate.getText()+"\', \'"+transcription.getText()+"\', \'"+(img==null?"null":img.getName())+"\', \'"+example.getText()+"\', \'"+category.getSelectedItem()+"\')");
+                db.insert("INSERT INTO lessons_words VALUES('"+Application.getInstance().wordLessonCurrentName+"', '"+word.getText()+"')");
+                Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
+            }else{
+                Database db = new Database();
+                db.insert("UPDATE words SET word=\'"+word.getText()+"\', translate=\'"+translate.getText()+"\', transcription=\'"+transcription.getText()+"\', img=\'"+(img==null?"null":img.getName())+"\', example=\'"+example.getText()+"\', category=\'"+category.getSelectedItem()+"\' WHERE word = '"+Application.getInstance().currentEditWord+"' AND lang='"+Application.getInstance().lang+"' AND user='"+Application.getInstance().user+"'");
+                db.insert("UPDATE lessons_words SET word='"+word.getText()+"' WHERE lesson='"+Application.getInstance().wordLessonCurrentName+"' AND word= '"+Application.getInstance().currentEditWord+"'");
+                Application.getInstance().currentEditWord = null;
+                Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
+            }
+
         }
         if(actionEvent.getSource() == back){
             Application.getInstance().frame.move(ProgramFrame.WORD_LESSON_EDIT);
+
+        }
+        if(actionEvent.getSource() == removeWord){
+            Database db = new Database();
+            db.insert("DELETE FROM words WHERE word='"+word.getText()+"' AND lang = '"+Application.getInstance().lang+"' AND user='"+Application.getInstance().user+"'");
+            db.insert("DELETE FROM lessons_words WHERE lesson='"+Application.getInstance().wordLessonCurrentName+"' AND word='"+word.getText()+"'");
+            Application.getInstance().frame.move(ProgramFrame.CHANGE_ACTION);
 
         }
     }

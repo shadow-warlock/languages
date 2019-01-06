@@ -34,7 +34,6 @@ public class GrammarList extends FrameItem implements ActionListener {
         JPanel buff = new JPanel();
         buff.setLayout(new BoxLayout(buff, BoxLayout.Y_AXIS));
         JScrollPane buttons = new JScrollPane(buff);
-        add(buttons);
 
         for(int i = 0; i < lessonsButs.length; i++){
             lessonsButs[i] = new Button(langsList.get(i));

@@ -7,6 +7,7 @@ public class Application {
     String grammarCurrentName = null;
     String grammarCurrentText = null;
     String wordLessonCurrentName = null;
+    String currentEditWord = null;
     String user = null;
     UserType userType = null;
     String lang = null;
@@ -14,6 +15,8 @@ public class Application {
     ProgramFrame frame;
     String category;
     List<String[]> words = new ArrayList<String[]>();
+    List<String> looksWords = new ArrayList<String>();
+
     int wordNum = 0;
     int errors = 0;
     int trues = 0;
