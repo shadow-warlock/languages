@@ -36,6 +36,8 @@ public class TestPage extends FrameItem implements ActionListener{
         label = new JLabel();
         label.setFont(font);
         Test test = Application.getInstance().test;
+        System.out.println(test);
+        System.out.println(test.getWords());
         if(test.getWords().size() > test.getNum()) {
             word = test.getWords().get(test.getNum());
             if(!word.getImg().equals("null")){
@@ -54,7 +56,7 @@ public class TestPage extends FrameItem implements ActionListener{
             label.setText("Нет слов по вашему запросу");
 
 
-        add(new Label("Язык " + Application.getInstance().lang + " что изображено на картинке (или написано, если картинки нет)"));
+        add(new Label("Язык " + Application.getInstance().lang.getLang() + " что изображено на картинке (или написано, если картинки нет)"));
         add(label);
 
         JPanel buttons = new JPanel(new GridLayout(2, 2));

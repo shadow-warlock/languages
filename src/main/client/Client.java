@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class Client {
 
@@ -36,11 +37,11 @@ public class Client {
         }
     }
 
-    public PostContainer getToServer(GetContainer message){
+    public List getToServer(GetContainer message){
         try {
             outputStream.writeObject(message);
             outputStream.flush();
-            return (PostContainer) inputStream.readObject();
+            return (List) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

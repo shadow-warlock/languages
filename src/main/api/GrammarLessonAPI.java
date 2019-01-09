@@ -16,11 +16,7 @@ public class GrammarLessonAPI {
         message.setCommand(Commands.SELECT);
         message.setTable(GrammarLesson.TABLE);
         message.addItem("lang", lang);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении");
-        }
-        List items = request.getItems();
+        List items = Application.getInstance().client.getToServer(message);
         return items;
     }
 

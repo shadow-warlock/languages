@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class User implements DTO, Serializable {
+public class User extends DTO implements Serializable {
     private String login;
     private String password;
     private String type;
@@ -59,6 +59,10 @@ public class User implements DTO, Serializable {
 
     @Override
     public HashMap<String, String> getMap() {
-        return null;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("login", login);
+        map.put("password", password);
+        map.put("type", type);
+        return  map;
     }
 }

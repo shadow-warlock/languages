@@ -79,7 +79,7 @@ public class AddWordToLesson extends FrameItem implements ActionListener{
         categories[0] = Application.getInstance().currentWordLesson.getName();
         category = new JComboBox(categories);
 
-        add(new Label("Добавьте слово. Язык выбран " + Application.getInstance().lang));
+        add(new Label("Добавьте слово. Язык выбран " + Application.getInstance().lang.getLang()));
         add(label);
         JPanel buttons = new JPanel(new GridLayout(2, 2));
         JPanel buttons2 = new JPanel(new GridLayout(2, 2));

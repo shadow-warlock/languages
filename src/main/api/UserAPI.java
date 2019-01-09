@@ -17,11 +17,7 @@ public class UserAPI {
         message.setTable(User.TABLE);
         message.addItem("login", login);
         message.addItem("password", password);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении users");
-        }
-        List items = request.getItems();
+        List items = Application.getInstance().client.getToServer(message);
         return items;
     }
 

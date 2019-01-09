@@ -24,7 +24,7 @@ public class ChangeActionTeather extends FrameItem implements ActionListener {
         wordsLesson.addActionListener(this);
         back = new Button("Назад");
         back.addActionListener(this);
-        add(new Label("Выберите действие. Язык выбран " + Application.getInstance().lang));
+        add(new Label("Выберите действие. Язык выбран " + Application.getInstance().lang.getLang()));
         JPanel buttons = new JPanel(new GridLayout(2, 2));
         buttons.add(grammarLesson);
         buttons.add(wordsLesson);

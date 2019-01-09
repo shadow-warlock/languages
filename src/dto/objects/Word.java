@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Word implements DTO{
+public class Word extends DTO {
     private String user;
     private String lang;
     private String translate;
@@ -82,7 +82,7 @@ public class Word implements DTO{
         this.category = category;
     }
 
-    public static List<Word> getListByResultSet(ResultSet resultSet){
+    public static List getListByResultSet(ResultSet resultSet){
         List<Word> words = new ArrayList<>();
         try{
             while (resultSet.next()){

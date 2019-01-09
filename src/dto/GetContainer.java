@@ -3,7 +3,7 @@ package dto;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class GetContainer extends Container implements Serializable {
+public class GetContainer extends Container {
     private HashMap<String, String> items = new HashMap<String, String>();
 
     public GetContainer(){

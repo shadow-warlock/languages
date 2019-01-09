@@ -1,11 +1,12 @@
 package dto.objects;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Stat implements DTO {
+public class Stat extends DTO {
 
     public static final String TABLE = "stats";
 
@@ -65,5 +66,25 @@ public class Stat implements DTO {
         map.put("user", user);
         map.put("word", word);
         return map;
+    }
+
+    public static List getListByResultSet(ResultSet resultSet){
+        List<Stat> words = new ArrayList<>();
+        try{
+            while (resultSet.next()){
+                Stat word = new Stat();
+                word.setLang(resultSet.getString("lang"));
+                word.setUser(resultSet.getString("user"));
+                word.setWord(resultSet.getString("word"));
+                word.setResult(resultSet.getString("result"));
+
+                word.setId(resultSet.getString("id"));
+
+                words.add(word);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  words;
     }
 }

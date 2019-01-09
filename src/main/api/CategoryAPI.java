@@ -14,11 +14,8 @@ public class CategoryAPI {
         message.setTable(Category.TABLE);
         message.addItem("lang", lang);
         message.addItem("user", user);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении категорий");
-        }
-        List items = request.getItems();
+        List items =  Application.getInstance().client.getToServer(message);
+
         return items;
     }
     public static void replaceCategory(Category word){

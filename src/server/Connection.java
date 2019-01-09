@@ -39,12 +39,7 @@ public class Connection extends Thread {
         while (isRunning){
             try {
                 Container container = (Container) inputStream.readObject();
-                System.out.println(container instanceof PostContainer);
-                System.out.println(container instanceof GetContainer);
-                System.out.println(container.getComs());
-                System.out.println(container.getCommand());
-                System.out.println(container.getTable());
-                System.out.println(((GetContainer)container).getItems());
+
 
                 GetContainer get;
                 PostContainer post;
@@ -52,23 +47,22 @@ public class Connection extends Thread {
                     case SELECT:
                         get = (GetContainer)container;
                         ResultSet categories = loader.getAllWhere(container.getTable(),get.getItems());
-                        outputStream.writeObject(categories);
+                        outputStream.writeObject(get.ResultToDTO(categories));
                         outputStream.flush();
                         break;
                     case REPLACE:
                         post= (PostContainer)container;
-                        post.getItems();
+                        System.out.println(((DTO)post.getItems().get(0)).getMap());
                         loader.replase(container.getTable(), ((DTO)post.getItems().get(0)).getMap());
                         break;
                     case DELETE:
                         post= (PostContainer)container;
-                        post.getItems();
                         loader.delete(container.getTable(), ((DTO)post.getItems().get(0)).getMap());
                         break;
                     case WORDS_CONNECTED:
                         get = (GetContainer)container;
                         ResultSet words = loader.getUnicallConnected(container.getTable(),get.getItems());
-                        outputStream.writeObject(words);
+                        outputStream.writeObject(get.ResultToDTO(words));
                         outputStream.flush();
                         break;
 

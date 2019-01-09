@@ -84,11 +84,12 @@ public class ChangeLesson extends FrameItem implements ActionListener {
         for (int i=0; i< lessons1.size();i++){
             if(actionEvent.getActionCommand().equals(makeTitle(lessons1.get(i)))){
                 Application.getInstance().currentWordLesson = lessons1.get(i);
-                Application.getInstance().frame.move(ProgramFrame.TEST_PAGE);
                 Test test = new Test();
 
                 test.setWords(WordAPI.getWordsByCategory(Application.getInstance().lang.getLang(), Application.getInstance().loggedUser.getLogin(), lessons1.get(i).getName()));
                 Application.getInstance().test = test;
+                Application.getInstance().frame.move(ProgramFrame.TEST_PAGE);
+
             }
         }
         for (int i=0; i< lessons2.size();i++){

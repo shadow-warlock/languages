@@ -39,7 +39,7 @@ public class ChangeCategory extends FrameItem implements ActionListener{
             categories[i+2] = list.get(i).getTitle();
         }
         category = new JComboBox(categories);
-        add(new Label("Выберите какие слова выдавать. Язык выбран " + Application.getInstance().lang));
+        add(new Label("Выберите какие слова выдавать. Язык выбран " + Application.getInstance().lang.getLang()));
         JPanel buttons = new JPanel(new GridLayout(1, 2));
 
 

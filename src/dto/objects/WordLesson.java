@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class WordLesson implements DTO{
+public class WordLesson extends DTO {
     private String name;
     private String author;
     private String lang;
@@ -56,6 +56,10 @@ public class WordLesson implements DTO{
 
     @Override
     public HashMap<String, String> getMap() {
-        return null;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("author", author);
+        map.put("lang", lang);
+        return  map;
     }
 }

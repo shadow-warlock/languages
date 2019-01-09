@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostContainer extends Container implements Serializable {
+public class PostContainer extends Container {
     private List<Object> items = new ArrayList<Object>();
 
     public List<Object> getItems() {

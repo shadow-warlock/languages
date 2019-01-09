@@ -85,7 +85,7 @@ public class AddWord extends FrameItem implements ActionListener{
         }
         category = new JComboBox(categories);
 
-        add(new Label("Добавьте\\измените слово. Язык выбран " + Application.getInstance().lang));
+        add(new Label("Добавьте\\измените слово. Язык выбран " + Application.getInstance().lang.getLang()));
         add(label);
         JPanel buttons = new JPanel(new GridLayout(2, 2));
         JPanel buttons2 = new JPanel(new GridLayout(2, 2));
@@ -141,7 +141,7 @@ public class AddWord extends FrameItem implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         Word addedWord = new Word();
-        if(!category.getSelectedItem().equals("Без категории")){
+        if(!("Без категории").equals(category.getSelectedItem())){
             addedWord.setCategory((String) category.getSelectedItem());
         }
         addedWord.setWord(word.getText());

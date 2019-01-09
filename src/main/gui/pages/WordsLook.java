@@ -17,9 +17,7 @@ public class WordsLook extends FrameItem implements ActionListener {
 
     public WordsLook(Dimension dim) {
         super(dim, 3, 1);
-        name = new TextField();
         add(new Label("Список слов"));
-        name.setText(Application.getInstance().currentWordLesson.getName());
         lessonsButs = new Button[Application.getInstance().looksWords.size()];
         JPanel buff = new JPanel();
         buff.setLayout(new BoxLayout(buff, BoxLayout.Y_AXIS));

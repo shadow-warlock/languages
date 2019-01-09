@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Language implements DTO {
+public class Language extends DTO {
     public static final String TABLE = "langs";
 
     private String lang;
@@ -45,6 +45,9 @@ public class Language implements DTO {
 
     @Override
     public HashMap<String, String> getMap() {
-        return null;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("lang", lang);
+        map.put("user", user);
+        return  map;
     }
 }

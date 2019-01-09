@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Category implements Serializable, DTO {
+public class Category extends DTO implements Serializable {
 
     public static final String TABLE = "categories";
 
@@ -55,8 +55,14 @@ public class Category implements Serializable, DTO {
         return  categories;
     }
 
+
+
     @Override
     public HashMap<String, String> getMap() {
-        return null;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("lang", lang);
+        map.put("title", title);
+        map.put("user", user);
+        return  map;
     }
 }

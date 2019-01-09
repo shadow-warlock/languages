@@ -18,9 +18,10 @@ public class Loader {
         for (Map.Entry<String, String> entry : args.entrySet()) {
             if(entry.getValue() == null)
                 continue;
-            query += " " + entry.getKey() + " = '" + entry.getValue() + "',";
+            query += " " + entry.getKey() + " = '" + entry.getValue() + "' AND";
         }
-        query = query.substring(0, query.length()-1);
+        query = query.substring(0, query.length()-3);
+        System.out.println(query);
         ResultSet rs = db.select(query);
         return rs;
     }
@@ -28,9 +29,9 @@ public class Loader {
     public ResultSet getUnicallConnected(String table, HashMap<String, String> args){
         String query = "SELECT * FROM " + table + " WHERE word IN (SELECT word FROM lessons_words WHERE lesson IN (SELECT name FROM lessons WHERE ";
         for (Map.Entry<String, String> entry : args.entrySet()) {
-            query += " " + entry.getKey() + " = '" + entry.getValue() + "',";
+            query += " " + entry.getKey() + " = '" + entry.getValue() + "' AND";
         }
-        query = query.substring(0, query.length()-1);
+        query = query.substring(0, query.length()-3);
         query += "))";
         ResultSet rs = db.select(query);
         return rs;
@@ -39,6 +40,8 @@ public class Loader {
     public void replase(String table, HashMap<String, String> args){
         String query = "REPLACE INTO " + table + " (";
         for (Map.Entry<String, String> entry : args.entrySet()) {
+            if(entry.getValue() == null)
+                continue;
             query += " " + entry.getKey() + ",";
         }
         query = query.substring(0, query.length()-1);
@@ -50,6 +53,8 @@ public class Loader {
         }
         query = query.substring(0, query.length()-1);
         query += ")";
+        System.out.println(query);
+
         db.insert(query);
     }
 
@@ -58,9 +63,9 @@ public class Loader {
         for (Map.Entry<String, String> entry : args.entrySet()) {
             if(entry.getValue() == null)
                 continue;
-            query += " " + entry.getKey() + " = '" + entry.getValue() + "',";
+            query += " " + entry.getKey() + " = '" + entry.getValue() + "'AND";
         }
-        query = query.substring(0, query.length()-1);
+        query = query.substring(0, query.length()-3);
         db.insert(query);
     }
 }

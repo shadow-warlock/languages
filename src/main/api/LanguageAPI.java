@@ -16,11 +16,7 @@ public class LanguageAPI {
         message.setCommand(Commands.SELECT);
         message.setTable(Language.TABLE);
         message.addItem("user", user);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении категорий");
-        }
-        List items = request.getItems();
+        List items = Application.getInstance().client.getToServer(message);
         return items;
     }
 

@@ -24,11 +24,7 @@ public class StatAPI {
         message.setTable(Stat.TABLE);
         message.addItem("lang", lang);
         message.addItem("user", user);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении");
-        }
-        List items = request.getItems();
+        List items = Application.getInstance().client.getToServer(message);
         return items;
     }
 

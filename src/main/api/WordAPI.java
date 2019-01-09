@@ -33,11 +33,7 @@ public class WordAPI {
         message.addItem("user", user);
         message.addItem("category", category);
 
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении категорий");
-        }
-        List items = request.getItems();
+        List items =  Application.getInstance().client.getToServer(message);
         return items;
     }
     public static List<Word> getWords(String lang, String user){
@@ -46,11 +42,8 @@ public class WordAPI {
         message.setTable(Word.TABLE);
         message.addItem("lang", lang);
         message.addItem("user", user);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении категорий");
-        }
-        List items = request.getItems();
+        List items =  Application.getInstance().client.getToServer(message);
+
         return items;
     }
 
@@ -60,11 +53,7 @@ public class WordAPI {
         message.setTable(Word.TABLE);
         message.addItem("lang", lang);
         message.addItem("name", lesson);
-        PostContainer request = Application.getInstance().client.getToServer(message);
-        if(request == null){
-            System.err.println("Ошибка при получении категорий");
-        }
-        List items = request.getItems();
+        List items =  Application.getInstance().client.getToServer(message);
         return items;
     }
 

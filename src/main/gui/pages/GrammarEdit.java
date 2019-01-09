@@ -54,7 +54,8 @@ public class GrammarEdit extends FrameItem implements ActionListener {
         if(actionEvent.getSource() == add){
             GrammarLesson lesson = new GrammarLesson();
             lesson.setAuthor(Application.getInstance().loggedUser.getLogin());
-            lesson.setId(Application.getInstance().currentGrammarLesson.getId());
+            if(Application.getInstance().currentGrammarLesson != null)
+                lesson.setId(Application.getInstance().currentGrammarLesson.getId());
             lesson.setLang(Application.getInstance().lang.getLang());
             lesson.setName(name.getText());
             lesson.setText(text.getText());

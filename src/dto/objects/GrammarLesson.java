@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GrammarLesson implements DTO{
+public class GrammarLesson extends DTO {
     private String id;
     private String text;
     private String name;
@@ -76,6 +76,12 @@ public class GrammarLesson implements DTO{
 
     @Override
     public HashMap<String, String> getMap() {
-        return null;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("lang", lang);
+        map.put("id", id);
+        map.put("author", author);
+        map.put("text", text);
+        map.put("name", name);
+        return  map;
     }
 }
